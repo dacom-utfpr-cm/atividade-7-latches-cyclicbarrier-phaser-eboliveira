@@ -1,6 +1,10 @@
 package main
 
 fun main(args: Array<String>){
-    var array = arrayListOf(1.0, 2.0, 2.0, 1.0)
-    println(Stencil(array, 3, 2).process())
+    val array = arrayListOf<Double>()
+    for(i in 0 until 50){
+        array.add(i.toDouble())
+    }
+    val result = Stencil(array, 3, 2).process()
+    println(result)
 }

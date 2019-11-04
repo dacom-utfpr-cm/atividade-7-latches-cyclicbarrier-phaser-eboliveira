@@ -65,4 +65,11 @@
     </task>
     <servers />
   </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="JetRunConfigurationType">
+        <watch expression="result_stencil[0]" language="kotlin" />
+      </configuration>
+    </watches-manager>
+  </component>
 </project>
