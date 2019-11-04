@@ -17,11 +17,19 @@
   </component>
   <component name="ProjectId" id="1Stkvm39L59LaFM2S0xKcyPUMwZ" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Eduardo Barbosa\Documents\Concorrente\atividade-7-latches-cyclicbarrier-phaser-eboliveira\src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -68,7 +76,7 @@
   <component name="XDebuggerManager">
     <watches-manager>
       <configuration name="JetRunConfigurationType">
-        <watch expression="result_stencil[0]" language="kotlin" />
+        <watch expression="barrier.numberWaiting" language="kotlin" />
       </configuration>
     </watches-manager>
   </component>

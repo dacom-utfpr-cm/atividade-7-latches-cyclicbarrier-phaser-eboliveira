@@ -1,11 +1,14 @@
 package main
 
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.CyclicBarrier
 import java.util.concurrent.Semaphore
 import kotlin.math.floor
 
-class Stencil(val array: ArrayList<Double>, val nIterations: Int, val nThreads: Int) {
+class StencilCyclicBarrier(val array: ArrayList<Double>, val nIterations: Int, val nThreads: Int) {
     val wlock = Semaphore(1)
+    val barrier = CyclicBarrier(nThreads)
+    val lockIt = Semaphore(1)
 
     fun process(): ArrayList<Double> {
         if(nThreads > array.size || nThreads == 1){
@@ -18,7 +21,6 @@ class Stencil(val array: ArrayList<Double>, val nIterations: Int, val nThreads: 
         newArray[0] = pasteArray[0]
         val thread_len_array = floor((len - 2) / numThreads) //primeiro e última posição serão tratadas diferentes
         for(iteration in 0 until nIterations){
-            val latch = CountDownLatch(nThreads)
             for(i in 0 until nThreads){
                 var initPosition:Int = (thread_len_array*i).toInt()
 
@@ -29,7 +31,7 @@ class Stencil(val array: ArrayList<Double>, val nIterations: Int, val nThreads: 
                     endPosition = (thread_len_array*(i+1)).toInt() + 2
                 }
                 Thread {
-                    val resultStencil = stencil(pasteArray.subList(initPosition, endPosition), latch)
+                    val resultStencil = stencil(pasteArray.subList(initPosition, endPosition))
                     wlock.acquire()
                     var i = initPosition
                     for(result in resultStencil){
@@ -38,18 +40,18 @@ class Stencil(val array: ArrayList<Double>, val nIterations: Int, val nThreads: 
                     }
                     wlock.release()
                 }.start()
+
             }
             wlock.acquire()
             newArray[len-1] = pasteArray[len-1]
             wlock.release()
-            latch.await()
             pasteArray = ArrayList<Double>(newArray.asList())
         }
         val newArrayList = ArrayList<Double>(newArray.asList())
         return(newArrayList)
     }
 
-    fun stencil(array: MutableList<Double>, latch: CountDownLatch): ArrayList<Double>{
+    fun stencil(array: MutableList<Double>): ArrayList<Double>{
         val len = array.size
         var pasteArray = array
         var newArray = ArrayList<Double>()
@@ -58,7 +60,8 @@ class Stencil(val array: ArrayList<Double>, val nIterations: Int, val nThreads: 
             val avg = (pasteArray[i-1] + pasteArray[i+1])/2
             newArray.add(avg)
         }
-        latch.countDown()
+
+        barrier.await()
         return newArray
     }
 }
